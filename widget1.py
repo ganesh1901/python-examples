@@ -13,11 +13,37 @@ class Example(QtGui.QMainWindow):
         self.setGeometry(300, 300, 250, 150)
         self.setWindowTitle('Statusbar')
 
-        self.menubar = self.menuBar()
-        self.menubar.addMenu('&About')
-        self.menubar.addMenu('&Settings')
-        self.menubar.addMenu('&Help')
+        menubar = self.menuBar()
+        about = menubar.addMenu('&About')
+        setting = menubar.addMenu('&Settings')
+        help = menubar.addMenu('&Help')
         self.show()
+
+        action1 = QtGui.QAction("Controller", self)
+        action2 = QtGui.QAction("GUI", self)
+
+        about.addAction(action1)
+        about.addAction(action2)
+
+        action1.triggered.connect(self.dialog1)
+        action2.triggered.connect(self.dialog2)
+
+    def dialog2(self):
+        dia2 = QtGui.QDialog()
+        dia2.setWindowTitle(" Dialog2 ")
+        dia2.exec_()
+
+    def dialog1(self):
+        dia1 = QtGui.QDialog()
+        # show() will be called with background process / modal
+        #dia1.show()
+        ret = dia1.exec_()
+        if ret == QtGui.QDialog.Accepted:
+            print 'yes'
+        else:
+            print 'no'
+        #dia1.setModal(True)
+
 
     def closeEvent(self, event):
         reply = QtGui.QMessageBox.question(self, 'Message',
